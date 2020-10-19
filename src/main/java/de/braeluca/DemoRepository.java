@@ -5,6 +5,7 @@ import io.micronaut.data.jdbc.annotation.JdbcRepository;
 import io.micronaut.data.jdbc.runtime.JdbcOperations;
 import io.micronaut.data.model.query.builder.sql.Dialect;
 import io.micronaut.data.repository.CrudRepository;
+import io.micronaut.transaction.annotation.TransactionalAdvice;
 
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -27,6 +28,7 @@ public abstract class DemoRepository implements CrudRepository<Book,Long> {
     }
 
     @Transactional
+    @TransactionalAdvice("test")
     public List<Book> findByTitle(String name) {
         String sql = "SELECT * FROM book WHERE name = ?";
         return jdbcOperations.prepareStatement(sql, statement -> {
